@@ -1,0 +1,74 @@
+swagger: "2.0"
+info:
+  title: GeoService API
+  version: 1.0.0
+paths:
+  /api/address/search:
+    post:
+      summary: Поиск адреса
+      description: Возвращает информацию о городе по заданному адресу.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: request
+          description: Запрос для поиска адреса
+          required: true
+          schema:
+            $ref: "#/definitions/RequestAddressSearch"
+      responses:
+        200:
+          description: Успешный запрос
+          schema:
+            $ref: "#/definitions/ResponseAddress"
+        400:
+          description: Неверный формат запроса
+  /api/address/geocode:
+    post:
+      summary: Геокодирование адреса
+      description: Возвращает информацию о городе по заданным координатам.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: request
+          description: Запрос для геокодирования адреса
+          required: true
+          schema:
+            $ref: "#/definitions/RequestAddressGeocode"
+      responses:
+        200:
+          description: Успешный запрос
+          schema:
+            $ref: "#/definitions/ResponseAddress"
+        400:
+          description: Неверный формат запроса
+definitions:
+  RequestAddressSearch:
+    type: object
+    properties:
+      query:
+        type: string
+  RequestAddressGeocode:
+    type: object
+    properties:
+      lat:
+        type: string
+      lng:
+        type: string
+  ResponseAddress:
+    type: object
+    properties:
+      addresses:
+        type: array
+        items:
+          $ref: "#/definitions/Address"
+  Address:
+    type: object
+    properties:
+      city:
+        type: string
